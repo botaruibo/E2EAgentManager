@@ -1,0 +1,16 @@
+[
+  {
+    "rowId": "row-1",
+    "productUrl": "https://example.com/product/1",
+    "title": "示例商品A",
+    "groupName": "默认分组",
+    "remark": "first sample"
+  },
+  {
+    "rowId": "row-2",
+    "productUrl": "https://example.com/product/2",
+    "title": "示例商品B",
+    "groupName": "默认分组",
+    "remark": "second sample"
+  }
+]

@@ -1,0 +1,3 @@
+rowId,productUrl,title,groupName,remark
+row-1,https://example.com/product/1,示例商品A,默认分组,first sample
+row-2,https://example.com/product/2,示例商品B,默认分组,second sample

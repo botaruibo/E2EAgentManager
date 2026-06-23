@@ -1,0 +1,848 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>员工创建高保真设计方案</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --shell: #ffffff;
+      --surface: #ffffff;
+      --surface-soft: #f8fafd;
+      --line: #dbe3ef;
+      --line-strong: #c8d3e4;
+      --ink: #172033;
+      --muted: #667085;
+      --subtle: #98a2b3;
+      --blue: #2563eb;
+      --blue-soft: #eef4ff;
+      --coral: #ff4d5e;
+      --coral-soft: #fff1f2;
+      --green: #159947;
+      --green-soft: #e8f8ef;
+      --red: #d92d20;
+      --red-soft: #fff1f0;
+      --amber: #b54708;
+      --amber-soft: #fff7e8;
+      --shadow: 0 18px 45px rgba(20, 36, 64, 0.08);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      letter-spacing: 0;
+    }
+    a { color: inherit; }
+    .page-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 18px 28px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(14px);
+    }
+    .page-header h1 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+    .page-header p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .doc-link {
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 800;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .screen-nav {
+      position: sticky;
+      top: 78px;
+      z-index: 9;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 12px 28px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(14px);
+    }
+    .screen-nav a {
+      flex: 0 0 auto;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: #344054;
+      font-size: 12px;
+      font-weight: 850;
+      text-decoration: none;
+      background: #fff;
+    }
+    main {
+      display: grid;
+      gap: 28px;
+      padding: 28px;
+    }
+    .screen {
+      display: grid;
+      gap: 16px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--shell);
+      box-shadow: var(--shadow);
+    }
+    .screen-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+    .screen-title h2 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: 0;
+    }
+    .screen-title p {
+      max-width: 740px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+      text-align: right;
+    }
+    .app-frame {
+      overflow: hidden;
+      min-height: 720px;
+      border: 1px solid var(--line-strong);
+      border-radius: 9px;
+      background: var(--surface);
+    }
+    .app-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      padding: 0 22px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+    .app-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+    .back {
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: #475467;
+      font-size: 22px;
+      font-weight: 900;
+    }
+    .app-title h3 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+    .app-title span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .top-actions, .button-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      min-height: 34px;
+      padding: 8px 13px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      color: #344054;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 850;
+    }
+    .btn.primary {
+      border-color: var(--blue);
+      background: var(--blue);
+      color: #fff;
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.18);
+    }
+    .btn.success {
+      border-color: #bfe8cd;
+      background: var(--green-soft);
+      color: var(--green);
+    }
+    .btn.danger {
+      border-color: #ffd0cc;
+      background: var(--red-soft);
+      color: var(--red);
+    }
+    .app-grid {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr) 360px;
+      min-height: 648px;
+    }
+    .app-grid.define-grid { grid-template-columns: 220px minmax(0, 1fr); }
+    .app-grid.test-grid { grid-template-columns: 220px minmax(0, 1fr); }
+    .side {
+      padding: 18px 14px;
+      border-right: 1px solid var(--line);
+      background: #fff;
+    }
+    .side-title {
+      margin: 0 0 14px;
+      padding: 0 8px;
+      color: #344054;
+      font-size: 14px;
+      font-weight: 900;
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 32px minmax(0, 1fr);
+      align-items: center;
+      gap: 10px;
+      padding: 10px 8px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      color: #344054;
+    }
+    .step + .step { margin-top: 8px; }
+    .step em {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 7px;
+      background: #edf2f8;
+      color: #667085;
+      font-style: normal;
+      font-size: 13px;
+      font-weight: 900;
+    }
+    .step strong {
+      display: block;
+      font-size: 13px;
+      line-height: 1.25;
+    }
+    .step small {
+      display: block;
+      margin-top: 2px;
+      color: var(--subtle);
+      font-size: 11px;
+      line-height: 1.35;
+      font-weight: 750;
+    }
+    .step.active {
+      border-color: #ffb8c0;
+      background: var(--coral-soft);
+    }
+    .step.active em {
+      background: var(--coral);
+      color: #fff;
+    }
+    .workspace {
+      min-width: 0;
+      padding: 18px;
+      background: var(--surface-soft);
+    }
+    .context {
+      padding: 18px;
+      border-left: 1px solid var(--line);
+      background: #fff;
+    }
+    .define-form-panel {
+      max-width: none;
+    }
+    .define-form-panel .panel-head {
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+    .define-form {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+    .define-form .span-all { grid-column: 1 / -1; }
+    .define-form .span-left { grid-column: span 1; }
+    .define-form .textarea { min-height: 132px; }
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 16px;
+      box-shadow: 0 8px 18px rgba(20, 36, 64, 0.04);
+    }
+    .panel + .panel { margin-top: 14px; }
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .panel-head h4 {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+    .panel-head span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 750;
+      text-align: right;
+    }
+    .field {
+      display: grid;
+      gap: 7px;
+      margin-bottom: 13px;
+      color: #344054;
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .control {
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      padding: 10px 11px;
+      color: #344054;
+      font-size: 13px;
+      line-height: 1.35;
+      font-weight: 700;
+    }
+    .textarea { min-height: 92px; color: var(--muted); }
+    .select:after {
+      content: "⌄";
+      float: right;
+      color: var(--subtle);
+      font-weight: 900;
+    }
+    .dropzone {
+      display: grid;
+      place-items: center;
+      min-height: 88px;
+      border: 1px dashed #b9c5d8;
+      border-radius: 8px;
+      color: #667085;
+      background: #fbfcff;
+      font-size: 13px;
+      font-weight: 850;
+      text-align: center;
+    }
+    .empty-state {
+      display: grid;
+      place-items: center;
+      min-height: 350px;
+      border: 1px dashed #b9c5d8;
+      border-radius: 8px;
+      background: #fff;
+      text-align: center;
+    }
+    .empty-state strong {
+      display: block;
+      font-size: 18px;
+      line-height: 1.3;
+    }
+    .empty-state p {
+      max-width: 430px;
+      margin: 8px auto 18px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.65;
+      font-weight: 700;
+    }
+    .method-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .method {
+      min-height: 82px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: var(--surface-soft);
+    }
+    .method strong {
+      display: block;
+      font-size: 13px;
+    }
+    .method span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+    .node-list {
+      display: grid;
+      gap: 9px;
+    }
+    .node {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+      min-height: 64px;
+      padding: 11px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+    .node.selected {
+      border-color: #8fb1ff;
+      background: var(--blue-soft);
+      box-shadow: inset 3px 0 0 var(--blue);
+    }
+    .node.strategy {
+      border-style: dashed;
+      background: #f9fcff;
+    }
+    .node.failed {
+      border-color: #f4aaa3;
+      background: var(--red-soft);
+      box-shadow: inset 3px 0 0 var(--red);
+    }
+    .node-index {
+      color: #98a2b3;
+      font-size: 17px;
+      font-weight: 900;
+      text-align: center;
+    }
+    .node-title {
+      display: block;
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.3;
+      font-weight: 900;
+    }
+    .node-desc {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+      font-weight: 700;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #edf2f8;
+      color: #475467;
+      font-size: 11px;
+      line-height: 1;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .badge.ok { color: var(--green); background: var(--green-soft); }
+    .badge.warn { color: var(--amber); background: var(--amber-soft); }
+    .badge.bad { color: var(--red); background: #fee4e2; }
+    .detail-table {
+      display: grid;
+      gap: 0;
+      margin-top: 10px;
+      border-top: 1px solid #edf1f7;
+    }
+    .detail-row {
+      display: grid;
+      grid-template-columns: 96px minmax(0, 1fr);
+      gap: 8px;
+      padding: 9px 0;
+      border-bottom: 1px solid #edf1f7;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+    .detail-row strong { color: #344054; }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .chip {
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: #344054;
+      font-size: 12px;
+      font-weight: 850;
+    }
+    .chip.active {
+      border-color: #8fb1ff;
+      background: var(--blue-soft);
+      color: var(--blue);
+    }
+    .run-controls {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr auto;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .advanced {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+      padding: 10px;
+      border: 1px dashed var(--line-strong);
+      border-radius: 8px;
+      background: #fff;
+    }
+    .advanced strong {
+      grid-column: 1 / -1;
+      color: #475467;
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .trial-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 390px;
+      gap: 14px;
+    }
+    .run-history { margin-top: 14px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    th, td {
+      padding: 10px 9px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: middle;
+    }
+    th {
+      color: #475467;
+      background: #f8fafc;
+      font-weight: 900;
+    }
+    tr.selected td { background: var(--blue-soft); }
+    .trace-list {
+      display: grid;
+      gap: 10px;
+      max-height: 500px;
+      overflow: auto;
+    }
+    .trace-item {
+      padding: 11px 12px;
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--line-strong);
+      border-radius: 7px;
+      background: #fff;
+    }
+    .trace-item.failed {
+      border-color: #f4aaa3;
+      border-left-color: var(--red);
+      background: var(--red-soft);
+    }
+    .trace-item strong {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--ink);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    .trace-item span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+    .trace-time { color: var(--subtle); font-weight: 800; }
+    @media (max-width: 1180px) {
+      .app-grid, .app-grid.define-grid, .app-grid.test-grid, .trial-layout {
+        grid-template-columns: 1fr !important;
+      }
+      .side, .context { border: 0; border-bottom: 1px solid var(--line); }
+      .screen-title { align-items: flex-start; flex-direction: column; }
+      .screen-title p { text-align: left; }
+      .run-controls, .advanced { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="page-header">
+    <div>
+      <h1>员工创建高保真设计方案</h1>
+      <p>4 个核心页面，对应创建流程。主任务流程始终是核心，录制、策略、调试都是围绕它展开的上下文能力。</p>
+    </div>
+    <a class="doc-link" href="./employee-creation-hi-fi-design.md">查看设计说明</a>
+  </header>
+
+  <nav class="screen-nav" aria-label="高保真页面导航">
+    <a href="#screen-01">01 定义工作</a>
+    <a href="#screen-02">02 录制主路径</a>
+    <a href="#screen-03">03 标注灵活节点</a>
+    <a href="#screen-04">04 试跑验证</a>
+  </nav>
+
+  <main>
+    <section class="screen" id="screen-01">
+      <div class="screen-title">
+        <h2>01 定义工作</h2>
+        <p>第一步以定义工作表单为主，不把主流程放在中心。主流程从录制主路径开始成为核心工作区。</p>
+      </div>
+      <div class="app-frame">
+        <div class="app-top">
+          <div class="app-title">
+            <button class="back">‹</button>
+            <div><h3>新建员工</h3><span>用一次浏览器示范教会员工完成工作</span></div>
+          </div>
+          <div class="top-actions"><button class="btn">保存</button><button class="btn success">试跑</button><button class="btn primary">发布</button></div>
+        </div>
+        <div class="app-grid define-grid">
+          <aside class="side">
+            <h4 class="side-title">创建流程</h4>
+            <div class="step active"><em>1</em><div><strong>定义工作</strong><small>目标、网站、运行方式</small></div></div>
+            <div class="step"><em>2</em><div><strong>录制主路径</strong><small>生成主流程初稿</small></div></div>
+            <div class="step"><em>3</em><div><strong>标注灵活节点</strong><small>智能策略</small></div></div>
+            <div class="step"><em>4</em><div><strong>试跑验证</strong><small>运行和 Trace</small></div></div>
+          </aside>
+          <section class="workspace">
+            <div class="panel define-form-panel">
+              <div class="panel-head"><h4>定义工作</h4><span>先让平台理解这个员工要完成什么，而不是先写脚本。</span></div>
+              <div class="define-form">
+                <label class="field span-left">目标网站<div class="control">https://news.baidu.com/</div></label>
+                <label class="field span-all">工作目标<div class="control textarea">执行「浏览器操作流程」工作流。</div></label>
+                <label class="field">运行方式<div class="control select">手动运行</div></label>
+                <label class="field">数据来源<div class="control select">CSV / JSON / XLSX</div></label>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="screen-02">
+      <div class="screen-title">
+        <h2>02 录制主路径</h2>
+        <p>录制窗口不嵌入当前页面。当前页面聚焦主流程节点的实时生成、回看和节点详情。</p>
+      </div>
+      <div class="app-frame">
+        <div class="app-top">
+          <div class="app-title">
+            <button class="back">‹</button>
+            <div><h3>百应橱窗商品员工</h3><span>主流程初稿已生成，继续整理节点</span></div>
+          </div>
+          <div class="top-actions"><button class="btn">保存</button><button class="btn success">试跑</button><button class="btn primary">发布</button></div>
+        </div>
+        <div class="app-grid">
+          <aside class="side">
+            <h4 class="side-title">创建流程</h4>
+            <div class="step"><em>1</em><div><strong>定义工作</strong><small>已完成</small></div></div>
+            <div class="step active"><em>2</em><div><strong>录制主路径</strong><small>录制与回看</small></div></div>
+            <div class="step"><em>3</em><div><strong>标注灵活节点</strong><small>智能策略</small></div></div>
+            <div class="step"><em>4</em><div><strong>试跑验证</strong><small>运行和 Trace</small></div></div>
+          </aside>
+          <section class="workspace">
+            <div class="panel">
+              <div class="panel-head"><h4>主任务流程</h4><span>7 个节点 · 可选中、排序、删除</span></div>
+              <div class="node-list">
+                <div class="node"><div class="node-index">1</div><div><span class="node-title">打开网页</span><span class="node-desc">打开目标后台首页</span></div><span class="badge">open</span></div>
+                <div class="node"><div class="node-index">2</div><div><span class="node-title">校验页面</span><span class="node-desc">确认已进入“商品橱窗”</span></div><span class="badge">verify</span></div>
+                <div class="node selected"><div class="node-index">3</div><div><span class="node-title">点击元素</span><span class="node-desc">点击“添加商品”按钮</span></div><span class="badge">click</span></div>
+                <div class="node"><div class="node-index">4</div><div><span class="node-title">填写输入框</span><span class="node-desc">在商品链接输入框填入 {{productUrl}}</span></div><span class="badge">input</span></div>
+                <div class="node"><div class="node-index">5</div><div><span class="node-title">点击元素</span><span class="node-desc">点击“确认添加”</span></div><span class="badge">click</span></div>
+              </div>
+            </div>
+          </section>
+          <aside class="context">
+            <div class="panel">
+              <div class="panel-head"><h4>录制与导入</h4><span>当前未录制</span></div>
+              <label class="field">目标地址<div class="control">https://buyin.jinritemai.com</div></label>
+              <div class="button-row"><button class="btn primary">打开独立录制窗口</button><button class="btn danger">停止录制</button></div>
+              <div class="detail-table">
+                <div class="detail-row"><strong>录制方式</strong><span>在独立窗口完成真实网页操作。</span></div>
+                <div class="detail-row"><strong>同步结果</strong><span>当前页只同步主流程节点。</span></div>
+              </div>
+              <div class="dropzone" style="margin-top:14px;">导入 SOP / JSON</div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h4>节点详情</h4><span>选中节点 3</span></div>
+              <label class="field">节点名称<div class="control">点击添加商品</div></label>
+              <label class="field">节点类型<div class="control select">browser.click</div></label>
+              <div class="detail-table">
+                <div class="detail-row"><strong>定位证据</strong><span>role: button；text: 添加商品</span></div>
+                <div class="detail-row"><strong>成功条件</strong><span>弹出商品链接输入表单</span></div>
+                <div class="detail-row"><strong>失败处理</strong><span>重试 1 次，仍失败则记录并暂停</span></div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="screen-03">
+      <div class="screen-title">
+        <h2>03 标注灵活节点</h2>
+        <p>智能策略节点插入主流程列表中。默认使用系统安全约束，不展示笨重的策略边界窗口。</p>
+      </div>
+      <div class="app-frame">
+        <div class="app-top">
+          <div class="app-title">
+            <button class="back">‹</button>
+            <div><h3>百应橱窗商品员工</h3><span>在不确定动作前插入智能策略</span></div>
+          </div>
+          <div class="top-actions"><button class="btn">保存</button><button class="btn success">试跑</button><button class="btn primary">发布</button></div>
+        </div>
+        <div class="app-grid">
+          <aside class="side">
+            <h4 class="side-title">创建流程</h4>
+            <div class="step"><em>1</em><div><strong>定义工作</strong><small>已完成</small></div></div>
+            <div class="step"><em>2</em><div><strong>录制主路径</strong><small>已录制</small></div></div>
+            <div class="step active"><em>3</em><div><strong>标注灵活节点</strong><small>智能策略</small></div></div>
+            <div class="step"><em>4</em><div><strong>试跑验证</strong><small>运行和 Trace</small></div></div>
+          </aside>
+          <section class="workspace">
+            <div class="panel">
+              <div class="panel-head"><h4>主任务流程</h4><span>选中节点 4，智能节点将插入其前方</span></div>
+              <div class="node-list">
+                <div class="node"><div class="node-index">1</div><div><span class="node-title">打开网页</span><span class="node-desc">目标后台首页</span></div><span class="badge">open</span></div>
+                <div class="node"><div class="node-index">2</div><div><span class="node-title">填写输入框</span><span class="node-desc">输入 {{productUrl}}</span></div><span class="badge">input</span></div>
+                <div class="node strategy selected"><div class="node-index">3</div><div><span class="node-title">智能选择：选择正确商品结果</span><span class="node-desc">从候选项中选择最符合条件的一项</span></div><span class="badge warn">strategy.select</span></div>
+                <div class="node"><div class="node-index">4</div><div><span class="node-title">点击元素</span><span class="node-desc">点击确认添加</span></div><span class="badge">click</span></div>
+              </div>
+            </div>
+          </section>
+          <aside class="context">
+            <div class="panel">
+              <div class="panel-head"><h4>智能节点配置</h4><span>插入到选中节点之前</span></div>
+              <div class="chips">
+                <span class="chip">智能判断</span>
+                <span class="chip active">智能选择</span>
+                <span class="chip">智能抽取</span>
+                <span class="chip">异常恢复</span>
+              </div>
+              <label class="field">策略名称<div class="control">选择正确商品结果</div></label>
+              <label class="field">策略描述<div class="control textarea">从搜索结果中选择标题最匹配、价格符合要求的一项。</div></label>
+              <label class="field">安全约束<div class="control select">使用系统默认策略，可在高级设置中调整</div></label>
+              <button class="btn primary" style="width:100%;">插入智能节点</button>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h4>当前节点摘要</h4><span>strategy.select</span></div>
+              <div class="detail-table">
+                <div class="detail-row"><strong>输入</strong><span>productName, maxPrice</span></div>
+                <div class="detail-row"><strong>输出</strong><span>selectedItem, reason</span></div>
+                <div class="detail-row"><strong>失败</strong><span>记录失败并跳过当前运行对象</span></div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="screen-04">
+      <div class="screen-title">
+        <h2>04 试跑验证</h2>
+        <p>默认展示安全试跑。主流程运行状态和 Trace Preview 并列，底部保留每次运行历史。</p>
+      </div>
+      <div class="app-frame">
+        <div class="app-top">
+          <div class="app-title">
+            <button class="back">‹</button>
+            <div><h3>百应橱窗商品员工</h3><span>调试主流程，定位失败节点</span></div>
+          </div>
+          <div class="top-actions"><button class="btn">保存</button><button class="btn success">试跑</button><button class="btn primary">发布</button></div>
+        </div>
+        <div class="app-grid test-grid">
+          <aside class="side">
+            <h4 class="side-title">创建流程</h4>
+            <div class="step"><em>1</em><div><strong>定义工作</strong><small>已完成</small></div></div>
+            <div class="step"><em>2</em><div><strong>录制主路径</strong><small>已录制</small></div></div>
+            <div class="step"><em>3</em><div><strong>标注灵活节点</strong><small>已配置</small></div></div>
+            <div class="step active"><em>4</em><div><strong>试跑验证</strong><small>运行和 Trace</small></div></div>
+          </aside>
+          <section class="workspace">
+            <div class="run-controls">
+              <button class="btn primary">开始试跑</button>
+              <div class="control select">安全试跑 <span style="color:#98a2b3;">dry_run</span></div>
+              <button class="btn">高级调试设置</button>
+            </div>
+            <div class="advanced">
+              <strong>高级调试设置</strong>
+              <div class="control select">运行环境：系统默认</div>
+              <div class="control">仅运行指定数据：可选</div>
+            </div>
+            <div class="trial-layout">
+              <div>
+                <div class="panel">
+                  <div class="panel-head"><h4>主任务流程运行状态</h4><span>状态 failed · 运行 3 · 成功 2 · 失败 1 · 审批 0</span></div>
+                  <div class="node-list">
+                    <div class="node"><div class="node-index">1</div><div><span class="node-title">打开网页</span><span class="node-desc">目标后台首页</span></div><span class="badge ok">success</span></div>
+                    <div class="node"><div class="node-index">2</div><div><span class="node-title">填写输入框</span><span class="node-desc">输入 {{productUrl}}</span></div><span class="badge ok">success</span></div>
+                    <div class="node strategy failed selected"><div class="node-index">3</div><div><span class="node-title">智能选择：选择正确商品结果</span><span class="node-desc">未找到符合价格条件的候选项</span></div><span class="badge bad">failed</span></div>
+                    <div class="node"><div class="node-index">4</div><div><span class="node-title">点击元素</span><span class="node-desc">确认添加</span></div><span class="badge">skipped</span></div>
+                  </div>
+                </div>
+                <div class="panel run-history">
+                  <div class="panel-head"><h4>Run Results</h4><span>状态 failed · Run ID baiying-xxx-003</span></div>
+                  <table>
+                    <thead><tr><th>#</th><th>员工</th><th>运行记录</th><th>状态</th><th>运行次数</th><th>成功</th><th>失败</th><th>开始时间</th></tr></thead>
+                    <tbody>
+                      <tr><td>1</td><td>百应员工</td><td>baiying-xxx-001</td><td><span class="badge ok">completed</span></td><td>1</td><td>1</td><td>0</td><td>10:30</td></tr>
+                      <tr><td>2</td><td>百应员工</td><td>baiying-xxx-002</td><td><span class="badge ok">completed</span></td><td>1</td><td>1</td><td>0</td><td>10:36</td></tr>
+                      <tr class="selected"><td>3</td><td>百应员工</td><td>baiying-xxx-003</td><td><span class="badge bad">failed</span></td><td>1</td><td>0</td><td>1</td><td>10:42</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <aside class="panel">
+                <div class="panel-head"><h4>Trace Preview</h4><span>failed</span></div>
+                <div class="trace-list">
+                  <div class="trace-item"><strong>step.succeeded / input_product_url <span class="trace-time">10:42:11</span></strong><span>商品链接已输入。</span></div>
+                  <div class="trace-item failed"><strong>step.failed / strategy_select_product <span class="trace-time">10:42:13</span></strong><span>候选商品 5 个，但没有一项满足价格不高于 maxPrice 的条件。</span></div>
+                  <div class="trace-item failed"><strong>recovery.suggested <span class="trace-time">10:42:14</span></strong><span>建议放宽价格条件，或将该商品记录为失败并跳过。</span></div>
+                  <div class="trace-item"><strong>step.skipped / final_submit <span class="trace-time">10:42:14</span></strong><span>安全试跑跳过最终提交。</span></div>
+                </div>
+                <div class="button-row" style="margin-top:14px;"><button class="btn primary">回到节点编辑</button><button class="btn">从此节点恢复</button></div>
+              </aside>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

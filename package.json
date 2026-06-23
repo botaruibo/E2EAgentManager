@@ -1,0 +1,36 @@
+{
+  "name": "e2e-commerce-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Douyin Baiying commerce runtime MVP",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node tests/run-tests.js",
+    "demo": "npm run build && node dist/apps/desktop/src/main.js",
+    "console": "npm run build && node dist/apps/desktop/src/console-demo.js",
+    "doctor": "npm run build && node dist/apps/desktop/src/doctor.js",
+    "run:csv": "npm run build && node dist/apps/desktop/src/run-csv.js",
+    "login:browser": "npm run build && node dist/apps/desktop/src/open-login.js",
+    "serve": "npm run build && node dist/apps/desktop/src/serve.js",
+    "dev:serve": "npm run build && node dist/apps/desktop/src/serve.js --dev",
+    "predesktop": "npm run build",
+    "desktop": "electron dist/apps/desktop/src/electron-main.js",
+    "desktop:dev": "npm run build && electron dist/apps/desktop/src/electron-main.js --dev",
+    "lint": "tsc -p tsconfig.json --noEmit"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "optionalDependencies": {
+    "electron": "*",
+    "playwright": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "vite": "^8.0.16"
+  }
+}
