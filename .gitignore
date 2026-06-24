@@ -6,9 +6,11 @@ auth.json
 storage-state.json
 browser-profiles/
 traces/
-data/
 .data/
 .tmp/
 *.trace.zip
 *.sqlite
 *.db
+data/*
+!data/
+!data/digital-employee.sqlite
