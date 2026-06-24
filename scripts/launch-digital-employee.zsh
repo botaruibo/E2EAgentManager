@@ -1,7 +1,8 @@
 #!/bin/zsh
 set -euo pipefail
 
-APP_DIR="/Users/bytedance/Documents/E2EAgentManager"
+SCRIPT_DIR="${0:A:h}"
+APP_DIR="${SCRIPT_DIR:h}"
 PORT="4174"
 NPM_BIN="/usr/local/bin/npm"
 LOG_FILE="$APP_DIR/.tmp/desktop-launcher.log"
